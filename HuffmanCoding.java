@@ -19,7 +19,20 @@ public class HuffmanCoding {
      */
     public void buildTree(Map<Character, Integer> freqMap) {
         // TODO: Implement Huffman tree building with lexicographical tie-breaking.
+        PriorityQueue pq = new PriorityQueue();
 
+        for (Map.Entry<Character, Integer> entry : freqMap.entrySet()) {
+            pq.insert(new HuffmanNode(entry.getKey(), entry.getValue()));
+        }
+
+        while (pq.size() > 1) {
+            HuffmanNode left = pq.extractMin();
+            HuffmanNode right = pq.extractMin();
+
+            HuffmanNode merged = new HuffmanNode(null, left.frequency + right.frequency, left, right);
+            pq.insert(merged);
+        }
+        this.root = pq.extractMin();
     }
 
     /**
@@ -27,11 +40,21 @@ public class HuffmanCoding {
      */
     public Map<Character, String> generateEncodingMap() {
         // TODO: Implement code map generation from the Huffman tree.
-        return null;
+        generateEncodingMapHelper(root, "");
+        return encodingMap;
     }
 
     private void generateEncodingMapHelper(HuffmanNode node, String code) {
         // TODO: Recursive helper for encoding map generation.
+        if (node == null)
+            return;
+
+        if (node.isLeaf()) {
+            encodingMap.put(node.character, code);
+            return;
+        }
+        generateEncodingMapHelper(node.left, code + "0");
+        generateEncodingMapHelper(node.right, code + "1");
     }
 
     /**

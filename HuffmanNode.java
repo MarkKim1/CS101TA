@@ -35,12 +35,14 @@ public class HuffmanNode {
      */
     public char getLeftmostLeafChar() {
         // TODO: Implement this method according to the assignment specification.
-
-        return '\0';
+        if (isLeaf()) {
+            return character;
+        }
+        return left.getLeftmostLeafChar();
     }
 
     public boolean isLeaf() {
         // TODO: Implement this method according to the assignment specification.
-        return false;
+        return left == null && right == null;
     }
 }
