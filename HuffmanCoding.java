@@ -64,6 +64,22 @@ public class HuffmanCoding {
      */
     public void encodeFile(String inputFile, String outputFile) throws IOException {
         // TODO: Implement file encoding according to the assignment format.
+
+        // Build tree and encoding map from input
+        Map<Character, Integer> freqMap = buildFrequencyMap(inputFile);
+        buildTree(freqMap);
+        generateEncodingMap(); // after this function call, encodingMap should be populated
+
+        // Encode the entire input into a bit string
+        StringBuilder bitString = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+            int c;
+            while ((c = br.read()) != -1) {
+                char character = (char) c;
+                bitString.append(encodingMap.get(character));
+            }
+        }
+
     }
 
     /**
@@ -78,7 +94,15 @@ public class HuffmanCoding {
      */
     public static Map<Character, Integer> buildFrequencyMap(String inputFile) throws IOException {
         // TODO: Implement frequency map builder for the input file.
-        return null;
+        Map<Character, Integer> freqMap = new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+            int c;
+            while ((c = br.read()) != -1) {
+                char character = (char) c;
+                freqMap.put(character, freqMap.getOrDefault(character, 0) + 1);
+            }
+        }
+        return freqMap;
     }
 
     /**

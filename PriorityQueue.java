@@ -36,6 +36,7 @@ public class PriorityQueue {
         // Shift down
         int i = 0;
         while (true) {
+
             int left = 2 * i + 1;
             int right = 2 * i + 2;
             int smallest = i;
